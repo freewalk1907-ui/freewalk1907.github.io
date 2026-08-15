@@ -3,91 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Walk - Walking Tours</title>
+    <title>Free Walk - Official Walking Tours</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0f172a; color: #f8fafc; line-height: 1.6; }
-        header { background: linear-gradient(135deg, #1e293b, #0f172a); text-align: center; padding: 60px 20px; border-bottom: 2px solid #334155; }
-        header h1 { font-size: 2.8rem; margin-bottom: 10px; color: #38bdf8; }
-        header p { font-size: 1.2rem; color: #94a3b8; }
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        .section-title { text-align: center; font-size: 1.8rem; margin-bottom: 30px; color: #f1f5f9; }
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .card { background: #1e293b; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: transform 0.3s ease; border: 1px solid #334155; }
-        .card:hover { transform: translateY(-6px); border-color: #38bdf8; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .card-content { padding: 18px; }
-        .card-content h3 { font-size: 1.05rem; color: #e2e8f0; font-weight: 600; }
-        footer { text-align: center; padding: 25px; background: #0f172a; color: #64748b; margin-top: 60px; border-top: 1px solid #1e293b; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Inter, system-ui, sans-serif; }
+        body { background-color: #0f0f0f; color: #f1f1f1; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Navigation Bar */
+        header { height: 60px; background: #121212; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid #272727; position: sticky; top: 0; z-index: 100; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .channel-avatar-sm { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+        .brand-name { font-weight: 700; font-size: 1.2rem; color: #fff; letter-spacing: 0.5px; }
+        
+        .search-bar { width: 40%; max-width: 500px; display: flex; }
+        .search-bar input { width: 100%; background: #181818; border: 1px solid #323232; padding: 8px 16px; border-radius: 20px 0 0 20px; color: #fff; outline: none; }
+        .search-bar button { background: #222222; border: 1px solid #323232; border-left: none; padding: 0 16px; border-radius: 0 20px 20px 0; color: #aaa; cursor: pointer; }
+
+        /* Layout */
+        .app-container { display: flex; flex: 1; }
+
+        /* Sidebar */
+        aside { width: 230px; background: #0f0f0f; padding: 16px 12px; border-right: 1px solid #1f1f1f; display: flex; flex-direction: column; gap: 20px; }
+        .nav-section { display: flex; flex-direction: column; gap: 4px; }
+        .nav-title { font-size: 0.75rem; text-transform: uppercase; color: #717171; padding: 8px; font-weight: 700; letter-spacing: 0.5px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; color: #aaa; text-decoration: none; border-radius: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; }
+        .nav-item:hover, .nav-item.active { background: #272727; color: #fff; }
+        .nav-item.active { color: #ffcc00; }
+
+        /* Main Content */
+        main { flex: 1; padding: 0 24px 24px 24px; overflow-y: auto; }
+
+        /* Channel Banner Header */
+        .channel-header { margin-bottom: 24px; border-radius: 0 0 16px 16px; overflow: hidden; background: #181818; border: 1px solid #272727; }
+        .banner-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+        .channel-profile-bar { display: flex; align-items: center; gap: 20px; padding: 16px 24px; background: #121212; }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ffcc00; background: #fff; object-fit: cover; }
+        .channel-details h1 { font-size: 1.5rem; color: #fff; font-weight: 700; }
+        .channel-details p { font-size: 0.85rem; color: #aaa; margin-top: 4px; }
+
+        /* Filter Chips */
+        .filter-chips { display: flex; gap: 10px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 8px; }
+        .chip { background: #272727; color: #fff; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; border: none; transition: background 0.2s; }
+        .chip.active, .chip:hover { background: #f1f1f1; color: #0f0f0f; }
+
+        /* Video Grid */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+        .video-card { background: #181818; border-radius: 12px; overflow: hidden; border: 1px solid #272727; transition: transform 0.2s, border-color 0.2s; }
+        .video-card:hover { transform: translateY(-4px); border-color: #ffcc00; }
+        
+        .thumbnail-container { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
+        .thumbnail-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        /* Empty Slot Design for Future Videos */
+        .empty-slot { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #141414; border: 2px dashed #333; min-height: 250px; border-radius: 12px; color: #555; text-align: center; padding: 20px; }
+        .empty-slot:hover { border-color: #ffcc00; color: #aaa; cursor: pointer; }
+        .empty-icon { font-size: 2rem; margin-bottom: 8px; }
+
+        .video-info { padding: 14px; }
+        .video-title { font-size: 0.95rem; font-weight: 600; color: #f1f1f1; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .video-meta { font-size: 0.8rem; color: #aaaaaa; display: flex; justify-content: space-between; align-items: center; }
+        .badge-4k { background: #333; color: #ffcc00; font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; border: 1px solid #ffcc00; }
+
+        @media (max-width: 900px) {
+            aside { width: 70px; padding: 12px 6px; }
+            .brand-name, .nav-title, .nav-item span { display: none; }
+            .nav-item { justify-content: center; }
+            .search-bar { display: none; }
+            .banner-img { height: 120px; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header>
-        <h1>Free Walk</h1>
-        <p>4K 60FPS Immersive Walking Tours</p>
+        <div class="logo-area">
+            <img src="https://yt3.googleusercontent.com/ytc/AIdro_m9T_49oY82gW3-N6B6EwQkXqg0A0x2K_4Q=s176-c-k-c0x00ffffff-no-rj" alt="Free Walk Logo" class="channel-avatar-sm">
+            <div class="brand-name">Free Walk</div>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Şehir, semt veya yürüyüş turu ara...">
+            <button>🔍</button>
+        </div>
     </header>
 
-    <div class="container">
-        <h2 class="section-title">Son Yürüyüş Videoları</h2>
+    <div class="app-container">
         
-        <div class="video-grid">
-            <!-- Video 1 -->
-            <div class="card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/vfclJ5k7AZQ" allowfullscreen></iframe>
-                </div>
-                <div class="card-content">
-                    <h3>Walking in İzmir, Turkey | Bostanlı & Karşıyaka 4K Walking Tour</h3>
+        <!-- Sol Menü -->
+        <aside>
+            <div class="nav-section">
+                <a href="#" class="nav-item active">🏠 <span>Ana Sayfa</span></a>
+                <a href="#" class="nav-item">🚶‍♂️ <span>Walking Tours</span></a>
+                <a href="#" class="nav-item">🌆 <span>Night Walks</span></a>
+                <a href="#" class="nav-item">🏖️ <span>Seaside Life</span></a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">İzmir Semtleri</div>
+                <a href="#" class="nav-item">📍 <span>Konak & Alsancak</span></a>
+                <a href="#" class="nav-item">📍 <span>Karşıyaka & Bostanlı</span></a>
+                <a href="#" class="nav-item">📍 <span>Güzelyalı & İnciraltı</span></a>
+                <a href="#" class="nav-item">📍 <span>Çeşme & Alaçatı</span></a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Diğer Bölgeler</div>
+                <a href="#" class="nav-item">📍 <span>Kuşadası</span></a>
+                <a href="#" class="nav-item">📍 <span>Bodrum</span></a>
+                <a href="#" class="nav-item">📍 <span>İstanbul</span></a>
+            </div>
+        </aside>
+
+        <!-- İçerik Alanı -->
+        <main>
+            <!-- Kanal Banner & Profil Alanı -->
+            <div class="channel-header">
+                <img src="https://yt3.googleusercontent.com/b_8-R0uJ1-U4b_bN1v9eS2L3vE-rK1l7W2r8gZ4J=w1707-fcrop64=1,00005a57ffffa5a8-k-c0x00ffffff-no-rj-nd" alt="Free Walk Banner" class="banner-img">
+                <div class="channel-profile-bar">
+                    <img src="https://yt3.googleusercontent.com/ytc/AIdro_m9T_49oY82gW3-N6B6EwQkXqg0A0x2K_4Q=s176-c-k-c0x00ffffff-no-rj" alt="Free Walk Logo" class="profile-avatar">
+                    <div class="channel-details">
+                        <h1>Free Walk</h1>
+                        <p>@freewalk1907 • 4K 60FPS Immersive Walking Tours</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Video 2 -->
-            <div class="card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/zVlN4N49LYI" allowfullscreen></iframe>
-                </div>
-                <div class="card-content">
-                    <h3>Konak City Walk | Vibrant Streets & Daily Life in Izmir 4K</h3>
-                </div>
+            <!-- Filtre Butonları -->
+            <div class="filter-chips">
+                <button class="chip active">Tüm Videolar</button>
+                <button class="chip">İzmir Turları</button>
+                <button class="chip">Bostanlı & Karşıyaka</button>
+                <button class="chip">Konak & Alsancak</button>
+                <button class="chip">Kuşadası</button>
+                <button class="chip">Bodrum</button>
             </div>
 
-            <!-- Video 3 -->
-            <div class="card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/873pN0nCMbo" allowfullscreen></iframe>
+            <!-- Videolar Grid -->
+            <div class="video-grid">
+                
+                <!-- Aktif Videolar -->
+                <div class="video-card">
+                    <div class="thumbnail-container">
+                        <iframe src="https://www.youtube.com/embed/vfclJ5k7AZQ" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Walking in İzmir, Turkey | Bostanlı & Karşıyaka 4K Walking Tour</div>
+                        <div class="video-meta">
+                            <span>Free Walk • İzmir</span>
+                            <span class="badge-4k">4K 60FPS</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-content">
-                    <h3>Güzelyalı to İnciraltı Ferry to Konak Walk | Izmir Seaside Life in 4K</h3>
-                </div>
-            </div>
 
-            <!-- Video 4 -->
-            <div class="card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/R3rB4UsomMk" allowfullscreen></iframe>
+                <div class="video-card">
+                    <div class="thumbnail-container">
+                        <iframe src="https://www.youtube.com/embed/zVlN4N49LYI" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Konak City Walk | Vibrant Streets & Daily Life in Izmir 4K</div>
+                        <div class="video-meta">
+                            <span>Free Walk • İzmir</span>
+                            <span class="badge-4k">4K 60FPS</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-content">
-                    <h3>Güzelyalı to Konak Walk | Seaside & City Life in Izmir 4K</h3>
-                </div>
-            </div>
 
-            <!-- Video 5 -->
-            <div class="card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/8kg8KMNnXY4" allowfullscreen></iframe>
+                <div class="video-card">
+                    <div class="thumbnail-container">
+                        <iframe src="https://www.youtube.com/embed/873pN0nCMbo" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Güzelyalı to İnciraltı Ferry to Konak Walk | Izmir Seaside Life</div>
+                        <div class="video-meta">
+                            <span>Free Walk • İzmir</span>
+                            <span class="badge-4k">4K 60FPS</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-content">
-                    <h3>Bodrum Yalıkavak Marina Walk | Luxury Seaside & Tourist Hotspot in 4K</h3>
+
+                <div class="video-card">
+                    <div class="thumbnail-container">
+                        <iframe src="https://www.youtube.com/embed/R3rB4UsomMk" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Güzelyalı to Konak Walk | Seaside & City Life in Izmir 4K</div>
+                        <div class="video-meta">
+                            <span>Free Walk • İzmir</span>
+                            <span class="badge-4k">4K 60FPS</span>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="video-card">
+                    <div class="thumbnail-container">
+                        <iframe src="https://www.youtube.com/embed/8kg8KMNnXY4" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Bodrum Yalıkavak Marina Walk | Luxury Seaside Hotspot 4K</div>
+                        <div class="video-meta">
+                            <span>Free Walk • Bodrum</span>
+                            <span class="badge-4k">4K 60FPS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- İleride Doldurabileceğiniz Boş Video Alanları (Taslaklar) -->
+                <div class="empty-slot">
+                    <div class="empty-icon">➕</div>
+                    <div>Yeni Video Alanı</div>
+                    <small>İleride buraya video linki ekleyebilirsiniz</small>
+                </div>
+
+                <div class="empty-slot">
+                    <div class="empty-icon">➕</div>
+                    <div>Yeni Video Alanı</div>
+                    <small>İleride buraya video linki ekleyebilirsiniz</small>
+                </div>
+
+                <div class="empty-slot">
+                    <div class="empty-icon">➕</div>
+                    <div>Yeni Video Alanı</div>
+                    <small>İleride buraya video linki ekleyebilirsiniz</small>
+                </div>
+
             </div>
-        </div>
+        </main>
     </div>
-
-    <footer>
-        <p>&copy; 2026 Free Walk. All Rights Reserved.</p>
-    </footer>
 
 </body>
 </html>
