@@ -2,10 +2,72 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Walking to Learn - FreeWalk1907</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeWalk1907 - Walking to Learn</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; color: #333; line-height: 1.6; }
+        header { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; text-align: center; padding: 60px 20px; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        header p { font-size: 1.2rem; opacity: 0.9; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .section-title { text-align: center; font-size: 1.8rem; margin-bottom: 30px; color: #1e3c72; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .card-content { padding: 15px; }
+        .card-content h3 { font-size: 1.1rem; color: #2c3e50; margin-bottom: 8px; }
+        footer { text-align: center; padding: 20px; background: #1e3c72; color: white; margin-top: 50px; font-size: 0.9rem; }
+    </style>
 </head>
 <body>
-    <h1>FreeWalk1907 - Walking to Learn</h1>
-    <p>Sitemiz çok yakında binlerce yürüyüş videosu ile yayında!</p>
+
+    <header>
+        <h1>FreeWalk1907</h1>
+        <p>Walking to Learn — Adım Adım Dünyayı Keşfedin</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Öne Çıkan Yürüyüş Videoları</h2>
+        
+        <div class="video-grid">
+            <!-- Video Kartı 1 -->
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="card-content">
+                    <h3>İstanbul Yürüyüş Turu — Tarihi Yarımada</h3>
+                </div>
+            </div>
+
+            <!-- Video Kartı 2 -->
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="card-content">
+                    <h3>İzmir Kordon Boyu Yürüyüşü</h3>
+                </div>
+            </div>
+
+            <!-- Video Kartı 3 -->
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="card-content">
+                    <h3>Doğa Yürüyüşü — Doğa & Huzur</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 FreeWalk1907. Tüm Hakları Saklıdır.</p>
+    </footer>
+
 </body>
 </html>
